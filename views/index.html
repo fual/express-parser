@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <style>
+        body {
+            padding: 10px;
+            background: #f7931e;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-git2.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#parse').on('submit', function (e) {
+                e.preventDefault();
+
+                $.ajax({
+                    method: "POST",
+                    url: "/",
+                    data: $(this).serialize(),
+                    beforeSend : function(){
+                        $('#news').html("<img src='http://localhost:3000/img/ajax-loader.gif' />");
+                    }
+                }).done(function (data) {
+                    $('#news').html(data);
+                });
+            });
+
+            $('#getLink').on('click',function(e){
+                e.preventDefault();
+                console.log($(this).next());
+                $(this).next().val(window.location.host.toString() + '?' + $('#parse').serialize());
+            });
+
+
+        })
+    </script>
+</head>
+<body>
+
+<div class="row">
+    <div class="col-xs-4">
+        <form name="parse" id="parse" action="/">
+            <div class="form-group">
+                <label for="exampleInputPassword1">Выберите сайт  : </label>
+                <select id="exampleInputPassword1" class="form-control" name="url">
+                    <option value="">Выберите сайт</option>
+
+                    {{#each sites}}
+                    <option {{#ifCond @key ../query.url }} selected="selected"  {{/ifCond}} value="{{@key}}">{{@key}}</option>
+                    {{/each}}
+
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Кол-во страниц: </label>
+
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="count" id="optionsRadios1" value="2" {{#ifCond query.count 2}}checked{{/ifCond}}>
+                        2
+                    </label>
+
+                    <label>
+                        <input type="radio" name="count" id="optionsRadios2" value="5" {{#ifCond query.count 5}}checked{{/ifCond}}>
+                        5
+                    </label>
+
+                    <label>
+                        <input type="radio" name="count" id="optionsRadios3" value="10" {{#ifCond query.count 10}}checked{{/ifCond}}>
+                        10
+                    </label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+    </div>
+    <div class="col-xs-7 well" >
+        <div class="row">
+            <a class="btn btn-default pull-left btn-success" href="#" id="getLink" role="button">Получить ссылку на выборку</a>
+            <input class="form-control pull-left" style="width: 200px" type="text" />
+        </div>
+        <div id="news" class="" style="margin-top: 20px;">
+            {{{news}}}
+        </div>
+    </div>
+</div>
+</body>
+</html>

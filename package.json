@@ -1,0 +1,20 @@
+{
+  "name": "express-parser",
+  "version": "0.0.1",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Khlebaev Alexey <f20music@narod.ru>",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.12.3",
+    "cheerio": "^0.19.0",
+    "consolidate": "^0.12.1",
+    "cookie-parser": "^1.3.4",
+    "express": "^4.12.3",
+    "handlebars": "^3.0.3",
+    "request": "^2.55.0"
+  }
+}
